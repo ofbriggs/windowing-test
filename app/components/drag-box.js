@@ -57,10 +57,14 @@ export default Ember.Component.extend({
         var top = this.top;
         var left = this.left;
 
-        if (this.track){
+        if (this.track && e){
             let posY = this.currY = e.clientY - top + this.startY;
             let posX = this.currX = e.clientX - left + this.startX;
             this.$()[0].style.transform = 'translate3d(%@px,%@px, 0)'.fmt(posX, posY);
+            requestAnimationFrame(this.updatePos.bind(this));
+        }
+        else if (this.track){
+            requestAnimationFrame(this.updatePos.bind(this));
         }
 
     },
@@ -91,10 +95,11 @@ export default Ember.Component.extend({
         this.$().removeClass('return');
         //console.log("computed:",matrix,":",matrix[5]);
         //$('body').on('mousemove',this.mousemove);
+        this.moveEvent = null;
         $(document).on('mousemove',function(e){
             this.moveEvent = e;
-            requestAnimationFrame(this.updatePos.bind(this));
         }.bind(this));
+        requestAnimationFrame(this.updatePos.bind(this));
     },
     click: function(e){
         console.log(e.clientX,':',e.clientY);
