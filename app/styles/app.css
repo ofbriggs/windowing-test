@@ -1,0 +1,12 @@
+*{
+    box-sizing:border-box;
+}
+.drag-box {
+    width:500px;
+    height:300px;
+    border: 1px black solid;
+    background-color: red;
+}
+.return {
+    transition: all 0.4s;
+}
