@@ -13,10 +13,8 @@ function changePos(elem, x, y, useTransform){
 }
 
 export default Ember.Component.extend({
-    classNames: ['drag-box'],
-    attributeBindings: ['style'],
+    classNames: ['drag-box', 'rows-3'],
     pointerStyle:null,
-    style:'background:red;',
     track: false,
     startX: 0,
     startY: 0,
@@ -61,11 +59,9 @@ export default Ember.Component.extend({
         $(document).off('mouseup');
         $(document).off('mousemove');
     },
-    m2A: function(str){
-        return str.split('(')[1].split(')')[0].split(',');
-    },
     mouseDown: function(e){
         if (e.which === 1){
+            this.moveEvent = null;
             this.track = true;
             this.top = e.clientY;
             this.left = e.clientX;
@@ -73,15 +69,11 @@ export default Ember.Component.extend({
             console.log(cStyle.transform);
             this.$().addClass('dragging').removeClass('animate');
             $(document.body).addClass('noselect');
-            this.moveEvent = null;
             $(document).on('mouseup', this.mouseUpHandler.bind(this));
             $(document).on('mousemove',function(e){
                 this.moveEvent = e;
             }.bind(this));
             requestAnimationFrame(this.updatePos.bind(this));
         }
-    },
-    click: function(e){
-        console.log(e.clientX,':',e.clientY);
     }
 });
